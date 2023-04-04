@@ -8,10 +8,10 @@
 #include <stdlib.h>
 #include <unistd.h>
 #define THREAD_POOL_PARAM_T dispatch_context_t // указывает компилятору, какой тип параметра передается между различными
-											   // функциями блокировки/обработки, которые будут использовать потоки
-											   // параметр будет использоваться контекстной структурой для передачи информации
-											   // между функциями. По умолчанию resmsg_context_t, но нам нужен уровень диспетчеризации
-											   // поэтому устанавливаем его в dispatch_context_t
+					       // функциями блокировки/обработки, которые будут использовать потоки
+					       // параметр будет использоваться контекстной структурой для передачи информации
+					       // между функциями. По умолчанию resmsg_context_t, но нам нужен уровень диспетчеризации
+					       // поэтому устанавливаем его в dispatch_context_t
 #include <sys/iofunc.h>
 #include <sys/dispatch.h>
 #include <devctl.h>
@@ -64,7 +64,7 @@ std::uint32_t bbs_alg(std::uint32_t client_id){
 }
 
 int io_open (resmgr_context_t * ctp , io_open_t * msg , RESMGR_HANDLE_T * handle , void * extra ) // ctp - структура для передачи контекстной информации между функциями библиотекой resource- manager
-{																								  // msg - указатель на структуру полученного сообщения (union входящего сообщения, коннекта и возможных отправляемых клиенту сообщений)
+{								                                   // msg - указатель на структуру полученного сообщения (union входящего сообщения, коннекта и возможных отправляемых клиенту сообщений)
 	unique_mut.lock();
 	client[ctp->info.scoid] = new Params();                    // scoid - идентификатор подключения к серверу (id клиентского процесса на стороне сервера)
 	client[ctp->info.scoid]->parameters = new bbs::BBSParams();
@@ -73,7 +73,7 @@ int io_open (resmgr_context_t * ctp , io_open_t * msg , RESMGR_HANDLE_T * handle
 }
 
 int io_close(resmgr_context_t *ctp, io_close_t *msg, iofunc_ocb_t *ocb) // ocb - структура открытого блока управления - данные, которые устанавливаются менеджером во время обработки клиентской функции open
-																		//	(ocb атрибуты, иофлаги(rdonly и тд) и еще несколько)
+									//	(ocb атрибуты, иофлаги(rdonly и тд) и еще несколько)		
 {
 	unique_mut.lock();
 	std::map <std::int32_t, Params*> :: iterator _cell;
@@ -137,7 +137,7 @@ int main(int argc, char **argv)
 {
     /* declare variables we'll be using */
 	thread_pool_attr_t   pool_attr;      // управляет различными аспектами пула потоков: какие ф-ции вызываются, 
-										 // когда заканчивается или стартует новый поток и тд
+					     // когда заканчивается или стартует новый поток и тд
 	resmgr_attr_t        resmgr_attr;
 	dispatch_t           *dpp;
 	thread_pool_t        *tpp;
@@ -188,12 +188,12 @@ int main(int argc, char **argv)
 	pool_attr.context_alloc = dispatch_context_alloc; // создание нового потока. Возвращает контекст, который использует поток при работе
 	pool_attr.block_func = dispatch_block;            // вызывается работающим потоком. Блокировка в ожидании некоего сообщения
 	pool_attr.unblock_func = dispatch_unblock;        
-	pool_attr.handler_func = dispatch_handler;		  // Разблокировка по причине получения сообщения
+	pool_attr.handler_func = dispatch_handler;	   // Разблокировка по причине получения сообщения
 	pool_attr.context_free = dispatch_context_free;   // Освобождает контекст при завершении работы потока
 	pool_attr.lo_water = 2;                           // минимальное количество одновременно блокированных потоков
 	pool_attr.hi_water = 4;                           // максимальное количество одновременно блокированных потоков
 	pool_attr.increment = 1;                          // сколько потоков должно быть создано сразу, если количество
-												      // блокированных потоков становится меньше lo_water
+							  // блокированных потоков становится меньше lo_water
 	pool_attr.maximum = 50;                           // максимальное общее число потоков, работающих одновременно
 
 	/* инициализация пула потоков */
@@ -206,7 +206,7 @@ int main(int argc, char **argv)
 
 	/* запустить потоки, блокирующая функция */
 	thread_pool_start(tpp);                    // не возвращает управление, тк в thread_pool_create флаг POOL_FLAG_EXIT_SEL
-										       // после запуска потоков будет вызвана ф-ция pthread_exit()
+						   // после запуска потоков будет вызвана ф-ция pthread_exit()
 	/* здесь вы не окажетесь, грустно */
     return EXIT_SUCCESS; 
 }
