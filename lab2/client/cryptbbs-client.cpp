@@ -26,7 +26,7 @@ int main(int argc, char **argv) {
         return EXIT_FAILURE;
     }
 	
-	int seed = 866, p = 5, q = 263;
+	int seed = 866, p = 3, q = 263;
 	
 	cout << "Сейчас прараметры " << seed << " " << p << " " << q << endl; 
 	
