@@ -34,9 +34,9 @@ int main(int argc, char **argv) {
     parameters.seed = seed;
     parameters.p = p;
     parameters.q = q;
-	int ctrl;
+    int ctrl;
     if ((ctrl = devctl(fd, SET_GEN_PARAMETERS, &parameters, sizeof(parameters), NULL)) != EOK) // devctl - механизм общего назначения для связей с менеджером ресурсов
-																							   // файловый дескриптор, Команда управления устройством для выполнения, данные, количесво, msg->o.ret_val (значение возвращаемое командой)
+												 // файловый дескриптор, Команда управления устройством для выполнения, данные, количесво, msg->o.ret_val (значение возвращаемое командой)											  
     {
         cerr << "Can't SET bbs parameters: " << strerror(errno) << endl;
         exit(EXIT_FAILURE);
@@ -44,7 +44,7 @@ int main(int argc, char **argv) {
 
     vector <uint32_t> psp_vector(1024);
     uint32_t element;
-	int counter = -1;
+    int counter = -1;
     while (!stop_signal)
     {
         if ((ctrl = devctl(fd, GET_ELEMENT_PSP, &element, sizeof(element), NULL)) != EOK)
