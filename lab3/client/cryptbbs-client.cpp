@@ -36,7 +36,7 @@ int main(int argc, char **argv) {
     parameters.q = q;
 	int ctrl;
     if ((ctrl = devctl(fd, SET_GEN_PARAMETERS, &parameters, sizeof(parameters), NULL)) != EOK) // devctl - механизм общего назначения для связей с менеджером ресурсов
-																							   // файловый дескриптор, Команда управления устройством для выполнения, данные, количесво, msg->o.ret_val (значение возвращаемое командой)
+												// файловый дескриптор, Команда управления устройством для выполнения, данные, количесво, msg->o.ret_val (значение возвращаемое командой)											  
     {
         cerr << "Can't SET bbs parameters: " << strerror(errno) << endl;
         exit(EXIT_FAILURE);
